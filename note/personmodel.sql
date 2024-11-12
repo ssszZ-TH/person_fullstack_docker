@@ -1596,3 +1596,49 @@ VALUES
     (8, 'H8901234', '2022-04-10', '2032-04-10', 8),
     (9, 'I9012345', '2015-12-20', '2025-12-20', 9),
     (10, 'J0123456', '2023-02-14', '2033-02-14', 10);
+
+/**
+
+ปกติแล้ว ใน PostgreSQL คอลัมน์ที่เป็น primary key และ auto-increment จะมี sequence ที่คอยเพิ่มค่า id 
+ให้กับข้อมูลใหม่โดยอัตโนมัติ แต่หากมีการเพิ่มข้อมูลเข้ามาโดยตรง (เช่นการ insert ข้อมูลพร้อมระบุ id หรือการ import ข้อมูล) 
+sequence นี้อาจไม่ถูกปรับให้ตรงกับค่าล่าสุดที่มีอยู่ในฐานข้อมูล
+
+SELECT setval('citizenship_id_seq', (SELECT MAX(id) FROM citizenship));
+คำสั่งนี้จะรีเซ็ต sequence citizenship_id_seq ให้ตรงกับ id ที่มีค่าสูงสุดใน table citizenship
+
+COALESCE คือค่าเเรก ที่ไม่ใช่ค่า null
+
+*/
+
+-- Reset sequence for marital_status_type
+SELECT setval('marital_status_type_id_seq', (SELECT COALESCE(MAX(id), 1) FROM marital_status_type));
+
+-- Reset sequence for marital_status
+SELECT setval('marital_status_id_seq', (SELECT COALESCE(MAX(id), 1) FROM marital_status));
+
+-- Reset sequence for physical_characteristic_type
+SELECT setval('physical_characteristic_type_id_seq', (SELECT COALESCE(MAX(id), 1) FROM physical_characteristic_type));
+
+-- Reset sequence for physical_characteristic
+SELECT setval('physical_characteristic_id_seq', (SELECT COALESCE(MAX(id), 1) FROM physical_characteristic));
+
+-- Reset sequence for person_name_type
+SELECT setval('person_name_type_id_seq', (SELECT COALESCE(MAX(id), 1) FROM person_name_type));
+
+-- Reset sequence for person_name
+SELECT setval('person_name_id_seq', (SELECT COALESCE(MAX(id), 1) FROM person_name));
+
+-- Reset sequence for person
+SELECT setval('person_id_seq', (SELECT COALESCE(MAX(id), 1) FROM person));
+
+-- Reset sequence for citizenship
+SELECT setval('citizenship_id_seq', (SELECT COALESCE(MAX(id), 1) FROM citizenship));
+
+-- Reset sequence for country
+SELECT setval('country_id_seq', (SELECT COALESCE(MAX(id), 1) FROM country));
+
+-- Reset sequence for passport
+SELECT setval('passport_id_seq', (SELECT COALESCE(MAX(id), 1) FROM passport));
+
+-- Reset sequence for gender_type
+SELECT setval('gender_type_id_seq', (SELECT COALESCE(MAX(id), 1) FROM gender_type));
