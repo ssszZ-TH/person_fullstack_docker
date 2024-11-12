@@ -1,4 +1,7 @@
 // สำหรับ table marital_status_type
+<?php
+
+
 $request->validate([
     'description' => 'required|string|max:64',
 ]);
